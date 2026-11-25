@@ -1,0 +1,37 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    name: build & test (${{ matrix.cc }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        cc: [gcc, clang]
+    steps:
+      - uses: actions/checkout@v4
+      - name: build
+        run: ${{ matrix.cc }} -std=c11 -O2 -Wall -Wextra -pedantic -Werror -o mst mst.c
+      - name: unit tests
+        run: |
+          ./mst --sorttest 10
+          ./mst --fuzz 500
+          ./mst --file t_disc.txt --ref
+          ./mst --file t_par.txt --ref
+          ./mst --n 30000 --m 90000 --ref --om
+
+  sanitizers:
+    name: asan + ubsan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: build
+        run: gcc -std=c11 -O1 -g -Wall -Wextra -fsanitize=address,undefined -o mst_asan mst.c
+      - name: test
+        run: |
+          ./mst_asan --sorttest 5
+          ./mst_asan --fuzz 300
