@@ -1,0 +1,12 @@
+c complete-ish multigraph with ties
+p 4 10
+a 1 2 5
+a 1 2 5
+a 1 2 3
+a 2 3 1
+a 3 4 2
+a 4 1 4
+a 1 3 10
+a 2 4 1
+a 1 4 1
+a 2 3 1

@@ -1,0 +1,19 @@
+# build artifacts
+*.obj
+*.exe
+*.o
+*.pdb
+mst
+mst_asan
+mst_gcc
+
+# editor / OS noise
+.vs/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# benchmark output
+*.log
+out/
